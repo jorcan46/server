@@ -44,4 +44,11 @@ interface IAvatarManager {
 	 * @since 6.0.0
 	 */
 	public function getAvatar(string $user) : IAvatar;
+
+	/**
+	 * Clear generated avatars
+	 * @see IAvatar
+	 * @since 15.0.0
+	 */
+	public function clearCachedAvatars();
 }
