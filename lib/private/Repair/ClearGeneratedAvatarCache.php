@@ -23,7 +23,7 @@
 
 namespace OC\Repair;
 
-use OCP\IAvatarManager;
+use OC\AvatarManager;
 use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -31,13 +31,13 @@ use OCP\Util;
 
 class ClearGeneratedAvatarCache implements IRepairStep {
 
-	/** @var IAvatarManager */
+	/** @var AvatarManager */
 	protected $avatarManager;
 
 	/** @var IConfig */
 	private $config;
 
-	public function __construct(IConfig $config, IAvatarManager $avatarManager) {
+	public function __construct(IConfig $config, AvatarManager $avatarManager) {
 		$this->config        = $config;
 		$this->avatarManager = $avatarManager;
 	}

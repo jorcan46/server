@@ -108,7 +108,7 @@ class AvatarManager implements IAvatarManager {
 	/**
 	 * Clear generated avatars
 	 */
-	public function clearCachedAvatars() {
+	private function clearCachedAvatars() {
 		$users = $this->config->getUsersForUserValue('avatar', 'generated', 'true');
 		foreach($users as $userId) {
 			try {

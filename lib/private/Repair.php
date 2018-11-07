@@ -33,6 +33,7 @@ namespace OC;
 use OCP\AppFramework\QueryException;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
+use OC\AvatarManager;
 use OC\Repair\AddCleanupUpdaterBackupsJob;
 use OC\Repair\CleanTags;
 use OC\Repair\ClearGeneratedAvatarCache;
@@ -142,7 +143,7 @@ class Repair implements IOutput {
 			new RepairInvalidPaths(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
 			new AddLogRotateJob(\OC::$server->getJobList()),
 			new ClearFrontendCaches(\OC::$server->getMemCacheFactory(), \OC::$server->query(SCSSCacher::class), \OC::$server->query(JSCombiner::class)),
-			new ClearGeneratedAvatarCache(\OC::$server->getConfig(), \OC::$server->getAvatarManager()),
+			new ClearGeneratedAvatarCache(\OC::$server->getConfig(), \OC::$server->query(AvatarManager::class)),
 			new AddPreviewBackgroundCleanupJob(\OC::$server->getJobList()),
 			new AddCleanupUpdaterBackupsJob(\OC::$server->getJobList()),
 			new RepairPendingCronJobs(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
