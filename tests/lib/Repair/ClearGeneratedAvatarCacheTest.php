@@ -52,25 +52,31 @@ class ClearGeneratedAvatarCacheTest extends \Test\TestCase {
 		$this->repair = new ClearGeneratedAvatarCache($this->config, $this->avatarManager);
 	}
 
-	public function dataVersions() {
+	public function shouldRunDataProvider() {
 		return [
-			['0.0.0.0', '15.0.1.2', true],
-			['10.0.0.0', '10.0.1.2', false],
-			['0.1.0', '0.0.1.2', false],
-			['15.0.0.0', '15.0.1.2', false],
-			['14.0.0.5', '15.0.0.2', true]
+			['11.0.0.0', true],
+			['15.0.0.3', true],
+			['13.0.5.2', true],
+			['12.0.0.0', true],
+			['16.0.0.1', false],
+			['15.0.0.2', true],
+			['13.0.0.0', true],
+			['15.0.0.5', false]
 		];
 	}
 
 	/**
-	 * @dataProvider dataVersions
+	 * @dataProvider shouldRunDataProvider
+	 *
+	 * @param string $from
+	 * @param boolean $expected
 	 */
-	public function testRun($fromVersion, $toVersion, $expected) {
-		$this->config->expects($this->once())
-		     ->method('getSystemValue')
-		     ->with('version', '0.0.0.0')
-		     ->willReturn($fromVersion);
+	public function testShouldRun($from, $expected) {
+		$this->config->expects($this->any())
+		       ->method('getSystemValue')
+		       ->with('version', '0.0.0.0')
+		       ->willReturn($from);
 
-		$this->assertEquals($expected, $this->invokePrivate($this->repair, 'shouldRun', [explode('.', $toVersion)]));
+		$this->assertEquals($expected, $this->invokePrivate($this->repair, 'shouldRun'));
 	}
 }

@@ -49,19 +49,17 @@ class ClearGeneratedAvatarCache implements IRepairStep {
 	/**
 	 * Check if this repair step should run
 	 *
-	 * @param Array $toVersion the version we're upgrading to
-	 * @return void
+	 * @return boolean
 	 */
-	private function shouldRun(Array $toVersion) {
-		$fromVersion      = $this->config->getSystemValue('version', '0.0.0.0');
-		$fromVersionMajor = explode('.', $fromVersion)[0];
+	private function shouldRun() {
+		$versionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0.0');
 
-		// Only run on major upgrade
-		return version_compare($fromVersionMajor, $toVersion[0], '<');
+		// was added to 15.0.0.4
+		return version_compare($versionFromBeforeUpdate, '15.0.0.4', '<=');
 	}
 
-	public function run(IOutput $output, bool $force = false) {
-		if ($this->shouldRun(Util::getVersion()) || $force) {
+	public function run(IOutput $output) {
+		if ($this->shouldRun()) {
 			try {
 				$this->avatarManager->clearCachedAvatars();
 				$output->info('Avatar cache cleared');
